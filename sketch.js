@@ -28,9 +28,10 @@ function preload() {
   dadatextfile=loadStrings('dada_english.txt',doText);
   font = loadFont('CormorantGaramond-Medium.ttf');
 
-  imgparagraph[0]=loadImage('Journal1.jpg');
-  imgparagraph[1] = loadImage('Journal2.jpg');
-  imgparagraph[2] = loadImage('Journal3.jpg');
+
+  imgparagraph[0]=loadImage('Journal1.png');
+  imgparagraph[1] = loadImage('Journal2.png');
+  imgparagraph[2] = loadImage('Journal3.png');
 
 }
 
@@ -43,7 +44,6 @@ function setup() {
     song.play();
     amp = new p5.Amplitude();
   }
-
 }
 
 function draw() {
@@ -60,10 +60,7 @@ function draw() {
     drawSquare();  
     textprocessed();
     soundWave();
-
-    for(i = 0; i < imgparagraph.length; i++){
-      image(imgparagraph[i], i*500, 0, windowWidth, windowHeight);
-    }
+    imgChange();
   } else if (scene==3){
     background(161,191,157,75);
     button.position(windowWidth/2,windowHeight);
@@ -136,9 +133,6 @@ function writing(){
   
   endShape();
   pop();
-
-
-
 }
 
 function reading(){
@@ -158,6 +152,13 @@ function reading(){
 
   endShape();
   pop();
+}
+
+function imgChange(){
+  for(i = 0; i < imgparagraph.length; i++){
+    imageMode(CENTER);
+    image(imgparagraph[i], random(100,windowWidth-150), random(100,windowHeight-150), 200,100);
+  }
 }
 
 function initMap(){
