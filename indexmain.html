@@ -16,7 +16,17 @@
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzG8Az3ajKty4V5_nByQ7WGImz91CFa4I&callback=initMap&libraries=&v=weekly"
   defer
   ></script>
+
+  
   <!-- google api -->
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+  integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+  crossorigin=""/>
+  <!-- leaflet library -->
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+  integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+  crossorigin=""></script>
 
 
 	<style>
@@ -29,7 +39,7 @@
 			margin:auto;
       display: block;
 		}
-    
+		#mapid { height: 180px; }
     
 	</style>
 </head>
@@ -38,5 +48,25 @@
   <script type="text/javascript" src="sketch.js"></script> 
   <!-- moved here for maps library -->
   
+  <div id="mapid"></div>
+	<!-- leaflet example - the library does not have a streetmap for India, so I am going to try to change it to mappa.js-->
+  <script>
+	  var mymap = L.map('mapid').setView([74.574136,31.604757], 13);
+	  L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+		maxZoom: 18,
+		id: 'mapbox/streets-v11',
+		tileSize: 512,
+		zoomOffset: -1,
+		accessToken: 'your.mapbox.access.token'
+		}).addTo(mymap);
+
+	L.marker([74.574136,31.604757]).addTo(mymap).bindPopup("<b>Wagah Border</b><br />Wagah, Hardo Rattan, Punjab 143108, India.").openPopup();
+	// L.marker([75.8495208,30.9119721]).addTo(mymap).bindPopup("<b>Ludhiana Railway Station</b><br />rLudhiana Railway Station, Near Ghanta Ghar, Jagraon bridge entry gate, Ludhiana, Punjab 141001, India.").openPopup();
+	// L.marker([77.2190894,28.6428915]).addTo(mymap).bindPopup("<b>New Delhi Railway Station</b><br />Bhavbhuti Marg, Ratan Lal Market, Kamla Market, Ajmeri Gate, New Delhi, Delhi 110006, India").openPopup();
+	// L.marker([77.2410203,28.6561592]).addTo(mymap).bindPopup("<b>Red Fort</b><br />Netaji Subhash Marg, Lal Qila, Chandni Chowk, New Delhi, Delhi 110006, India").openPopup();
+
+  </script>
+
 </body>
 </html>

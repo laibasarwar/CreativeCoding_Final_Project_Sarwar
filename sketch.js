@@ -248,7 +248,9 @@ function imgChange(){
 function keyPressed(){
   if (keyCode==32){
     scene++;//spacebar moves scene
-    if (choice>3){}
-    scene=1;//repositions to 1rst scene if space exaceeds the number of scenes
+    if (choice>3){
+      scene=1;//repositions to 1rst scene if space exaceeds the number of scenes
+    }
+    
   }
 }
