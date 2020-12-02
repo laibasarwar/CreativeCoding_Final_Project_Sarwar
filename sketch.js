@@ -10,6 +10,8 @@ var song;
 var amp;
 var volhistory = [];
 
+let imgparagraph=[];
+
 var button;
 
 function toggleSong() {
@@ -25,24 +27,50 @@ function preload() {
 
   dadatextfile=loadStrings('dada_english.txt',doText);
   font = loadFont('CormorantGaramond-Medium.ttf');
+
+  imgparagraph[0]=loadImage('Journal1.jpg');
+  imgparagraph[1] = loadImage('Journal2.jpg');
+  imgparagraph[2] = loadImage('Journal3.jpg');
+
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  button = createButton('toggle');
-  button.position(windowWidth/2-20,100);
-  button.mousePressed(toggleSong);
-  song.play();
-  amp = new p5.Amplitude();
+  if (scene==1){
+    button = createButton('toggle');
+    button.position(windowWidth/2-20,100);
+    button.mousePressed(toggleSong);
+    song.play();
+    amp = new p5.Amplitude();
+  }
+
 }
 
 function draw() {
-  background(161,191,157,75);
-  drawSquare();  
-  textprocessed();
-  // soundWave();
-  writing();
-  reading();
+  if (scene==1){
+    background(161,191,157,75);
+    drawSquare(); 
+    textprocessed();
+    soundWave(); 
+    writing();
+    reading();
+  } else if (scene==2){
+    background(161,191,157,75);
+    button.position(windowWidth/2,windowHeight); 
+    drawSquare();  
+    textprocessed();
+    soundWave();
+
+    for(i = 0; i < imgparagraph.length; i++){
+      image(imgparagraph[i], i*500, 0, windowWidth, windowHeight);
+    }
+  } else if (scene==3){
+    background(161,191,157,75);
+    button.position(windowWidth/2,windowHeight);
+    initMap();
+  }
+  
+
 
 }
 
@@ -133,11 +161,10 @@ function reading(){
 }
 
 function initMap(){
-  var options = {
-    zoom:8,
-    center:8,
-    center:{lat:42.3601,lng:-71.0580}
-  }
+  map = new google.maps.Map(document.getElementById("map"), {
+    center: { lat: 45.518, lng: -122.672 },
+    zoom: 18,
+  });
 }
 
 function keyPressed(){
