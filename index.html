@@ -1,35 +1,33 @@
 <!DOCTYPE html>
-<html lang="">
-
+<html>
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Final</title>
-  <style>
-    body {
-      padding: 0;
-      margin: 0;
-    }
-  </style>
-  <script src="../addons/p5-test.js"></script>
-  <script src="../addons/p5.js"></script>
-  <script src="../addons/p5.min.js"></script>
-  <script src="../addons/p5.pre-min.js"></script>
-  <script src="../addons/p5.sound.js"></script>
-  <script src="../addons/p5.sound.min.js"></script>
-  <script src="sketch.js"></script>
-  <script src="Journal1.png"></script>
-  <script src="Journal2.png"></script>
-  <script src="Journal3.png"></script>
-  <script src="dada_english.txt"></script>
-  <script src="DadaEnglish2.wav"></script>
-  <script src="DadaUrdu2.wav"></script>
-  <script src="couriernew.otf"></script>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Final</title>
+
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/p5@1.1.4/lib/p5.min.js"></script>
+
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/p5@1.1.4/lib/addons/p5.sound.min.js"></script>
+	<script type="text/javascript" src="sketch.js"></script>
+
+
+	<style>
+		body {
+			margin:0;
+			padding:0;
+			overflow: hidden;
+		}
+		canvas {
+			margin:auto;
+		}
+	</style>
 </head>
+<body>  
+  <div id="map"></div>
 
-<body>
-  <main>
-  </main>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzG8Az3ajKty4V5_nByQ7WGImz91CFa4I&callback=initMap"
+  type="text/javascript"></script>
 </body>
-
 </html>
