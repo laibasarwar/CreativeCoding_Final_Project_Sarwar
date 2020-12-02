@@ -1,0 +1,171 @@
+{
+  "type" : "FeatureCollection",
+  "features" : [ {
+    "geometry" : {
+      "coordinates" : [ 74.5741360, 31.6047570 ],
+      "type" : "Point"
+    },
+    "properties" : {
+      "Google Maps URL" : "http://maps.google.com/?cid=3626265924100268457",
+      "Location" : {
+        "Address" : "Wagah, Hardo Rattan, Punjab 143108, India",
+        "Business Name" : "Wagah",
+        "Country Code" : "IN",
+        "Geo Coordinates" : {
+          "Latitude" : "31.6047570",
+          "Longitude" : "74.5741360"
+        }
+      },
+      "Published" : "2020-12-02T17:55:40Z",
+      "Title" : "Wagah",
+      "Updated" : "2020-12-02T17:55:40Z"
+    },
+    "type" : "Feature"
+  }, {
+    "geometry" : {
+      "coordinates" : [ 75.8495208, 30.9119721 ],
+      "type" : "Point"
+    },
+    "properties" : {
+      "Google Maps URL" : "http://maps.google.com/?cid=5153392179238225494",
+      "Location" : {
+        "Address" : "railway station, Near Ghanta Ghar, Jagraon bridge entry gate, Ludhiana, Punjab 141001, India",
+        "Business Name" : "Ludhiana Railway Station",
+        "Geo Coordinates" : {
+          "Latitude" : "30.9119721",
+          "Longitude" : "75.8495208"
+        }
+      },
+      "Published" : "2020-12-02T17:54:27Z",
+      "Title" : "Ludhiana Railway Station",
+      "Updated" : "2020-12-02T17:54:27Z"
+    },
+    "type" : "Feature"
+  }, {
+    "geometry" : {
+      "coordinates" : [ 77.2190894, 28.6428915 ],
+      "type" : "Point"
+    },
+    "properties" : {
+      "Google Maps URL" : "http://maps.google.com/?cid=17911162059406858518",
+      "Location" : {
+        "Address" : "Bhavbhuti Marg, Ratan Lal Market, Kamla Market, Ajmeri Gate, New Delhi, Delhi 110006, India",
+        "Business Name" : "New Delhi Railway Station",
+        "Country Code" : "IN",
+        "Geo Coordinates" : {
+          "Latitude" : "28.6428915",
+          "Longitude" : "77.2190894"
+        }
+      },
+      "Published" : "2020-12-02T17:53:32Z",
+      "Title" : "New Delhi Railway Station",
+      "Updated" : "2020-12-02T17:53:32Z"
+    },
+    "type" : "Feature"
+  }, {
+    "geometry" : {
+      "coordinates" : [ 77.2410203, 28.6561592 ],
+      "type" : "Point"
+    },
+    "properties" : {
+      "Google Maps URL" : "http://maps.google.com/?cid=4908416671633375995",
+      "Location" : {
+        "Address" : "Netaji Subhash Marg, Lal Qila, Chandni Chowk, New Delhi, Delhi 110006, India",
+        "Business Name" : "Red Fort",
+        "Country Code" : "IN",
+        "Geo Coordinates" : {
+          "Latitude" : "28.6561592",
+          "Longitude" : "77.2410203"
+        }
+      },
+      "Published" : "2020-12-02T17:51:00Z",
+      "Title" : "Red Fort",
+      "Updated" : "2020-12-02T17:51:00Z"
+    },
+    "type" : "Feature"
+  }, {
+    "geometry" : {
+      "coordinates" : [ 77.2334421, 28.6506792 ],
+      "type" : "Point"
+    },
+    "properties" : {
+      "Google Maps URL" : "http://maps.google.com/?cid=15949276658289057174",
+      "Location" : {
+        "Address" : "Jama Masjid Rd, Jama Masjid, Chandni Chowk, New Delhi, Delhi 110006, India",
+        "Business Name" : "Jama Masjid",
+        "Country Code" : "IN",
+        "Geo Coordinates" : {
+          "Latitude" : "28.6506792",
+          "Longitude" : "77.2334421"
+        }
+      },
+      "Published" : "2020-12-02T17:50:19Z",
+      "Title" : "Jama Masjid",
+      "Updated" : "2020-12-02T17:50:19Z"
+    },
+    "type" : "Feature"
+  }, {
+    "geometry" : {
+      "coordinates" : [ 77.2507492, 28.5932848 ],
+      "type" : "Point"
+    },
+    "properties" : {
+      "Google Maps URL" : "http://maps.google.com/?cid=13398695069844744205",
+      "Location" : {
+        "Address" : "Mathura Road Opposite, Hazrat Nizamuddin Aulia Dargah, Nizamuddin, New Delhi, Delhi 110013, India",
+        "Business Name" : "Humayun’s Tomb",
+        "Country Code" : "IN",
+        "Geo Coordinates" : {
+          "Latitude" : "28.5932848",
+          "Longitude" : "77.2507492"
+        }
+      },
+      "Published" : "2020-12-02T17:50:06Z",
+      "Title" : "Humayun’s Tomb",
+      "Updated" : "2020-12-02T17:50:06Z"
+    },
+    "type" : "Feature"
+  }, {
+    "geometry" : {
+      "coordinates" : [ 85.2318089, 25.5908920 ],
+      "type" : "Point"
+    },
+    "properties" : {
+      "Google Maps URL" : "http://maps.google.com/?cid=12263517766897336316",
+      "Location" : {
+        "Address" : "Sher Shah ki masjid City, Bihar 800009, India",
+        "Business Name" : "Sher Shah Suri Masjid",
+        "Country Code" : "IN",
+        "Geo Coordinates" : {
+          "Latitude" : "25.5908920",
+          "Longitude" : "85.2318089"
+        }
+      },
+      "Published" : "2020-12-02T17:46:24Z",
+      "Title" : "Sher Shah Suri Masjid",
+      "Updated" : "2020-12-02T17:46:24Z"
+    },
+    "type" : "Feature"
+  }, {
+    "geometry" : {
+      "coordinates" : [ 77.2437371, 28.6095744 ],
+      "type" : "Point"
+    },
+    "properties" : {
+      "Google Maps URL" : "http://maps.google.com/?cid=1410323091018665139",
+      "Location" : {
+        "Address" : "Mathura Rd, Near Delhi Zoo, New Delhi, Delhi 110003, India",
+        "Business Name" : "Purana Qila",
+        "Country Code" : "IN",
+        "Geo Coordinates" : {
+          "Latitude" : "28.6095744",
+          "Longitude" : "77.2437371"
+        }
+      },
+      "Published" : "2020-12-02T17:45:02Z",
+      "Title" : "Purana Qila",
+      "Updated" : "2020-12-02T17:45:02Z"
+    },
+    "type" : "Feature"
+  } ]
+}

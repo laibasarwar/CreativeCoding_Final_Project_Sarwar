@@ -16,6 +16,24 @@ var volhistory = []; //declare an array to hold the amplitude
 
 let imgparagraph=[];//array for the image paragraphs
 
+let key="AIzaSyCzG8Az3ajKty4V5_nByQ7WGImz91CFa4I";
+let dadalocations;
+
+const mappa = new Mappa('Google',key);
+let pakistanMap;
+let mapcanvas;
+let dadadestinations;
+
+let data = [];
+
+const options = {
+  lat: 30.3753,
+  lng: 69.3451,
+  zoom: 8,
+  style: "http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+}
+
+
 var button;//button to toggle song
 
 function toggleSong() { //function to stop song through the button
@@ -31,6 +49,8 @@ function preload() {
 
   dadatextfile=loadStrings('dada_english.txt',doText); //import strings from text file into the doText function to transfer into data
   font = loadFont('CormorantGaramond-Medium.ttf');//load selected font
+
+  // dadalocations=loadJSON('Saved_Places.json');
 
   //did try to make this into a for loop when  doing it, it did not process while I was running it. 
   imgparagraph[0]=loadImage('Journal0.png');//load images in the array
@@ -62,13 +82,26 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);//full screen
+  
   if (scene==1){
+    createCanvas(windowWidth, windowHeight);//full screen
     button = createButton('press to on and off the song');//button to pause and play song
     button.position(windowWidth/2-20,100);//position to be in top middle
     button.mousePressed(toggleSong);//enable by mousePress
     song.play();//play song function
     amp = new p5.Amplitude();//creat new amplitude class from built in p5 sound library
+
+  } else if (scene==3){
+    mapcanvas = createCanvas(windowWidth, windowHeight).parent('canvasContainer');;
+    pakistanMap = mappa.tileMap(options);
+    pakistanMap.overlay(mapcanvas);
+
+    dadadestinations = loadTable('Saved_Places.csv', 'csv', 'header');
+
+    pakistanMap.onChange(drawDestinations);
+
+    fill(207, 204, 0);
+    noStroke();
   }
 }
 
@@ -88,15 +121,38 @@ function draw() {
     soundWave();
     imgChange();//call to function for images array 
   } else if (scene==3){
-    background(161,191,157,75);
-    button.position(windowWidth/2,windowHeight);
-    initMap();//google map api function but it was not working so I am trying to change it to the leaflet libray but it is giving me the same issue
+    // background(161,191,157,75);
+    // button.position(windowWidth/2,windowHeight);
+    // initMap();//google map api function but it was not working so I am trying to change it to the leaflet libray but it is giving me the same issue
+    clear();
+    // background(0);
+    drawDestinations();
   }
-  
-
-
 }
 
+
+
+function drawDestinations(){
+  for (let i = 1; i < dadadestinations.getRowCount(); i += 1) {
+    // Get the lat/lng of each meteorite 
+    const latitude = Number(dadadestinations.getString(i, 'geometry/coordinates/0'));
+    const longitude = Number(dadadestinations.getString(i, 'geometry/coordinates/1'));
+
+    // Only draw them if the position is inside the current map bounds. We use a
+    // Google Map method to check if the lat and lng are contain inside the current
+    // map. This way we draw just what we are going to see and not everything. See
+    // getBounds() in https://developers.google.com/maps/documentation/javascript/3.exp/reference
+    if (pakistanMap.map.getBounds().contains({ lat: latitude, lng: longitude })) {
+      // Transform lat/lng to pixel position
+      const pos = pakistanMap.latLngToPixel(latitude, longitude);
+      // Get the size of the meteorite and map it. 60000000 is the mass of the largest
+      // meteorite (https://en.wikipedia.org/wiki/Hoba_meteorite)
+      // let size = dadadestinations.getString(i, 'mass (g)');
+      // size = map(size, 558, 60000000, 1, 25) + myMap.zoom();
+      ellipse(pos.x, pos.y, 25, 25);
+    }
+  }
+}
 function doText(data) {
   lines = data;//puts the lines array to the data to use as the text
 }
@@ -187,12 +243,7 @@ function imgChange(){
   }
 }
 
-function initMap(){//from maps api but I might remove to use leaflet instead
-  map = new google.maps.Map(document.getElementById("map"), {//deleted this from index file but will try to make it work
-    center: { lat: 45.518, lng: -122.672 },//centers latitude and longitude of initial position of map
-    zoom: 18,//max zoom in
-  });
-}
+
 
 function keyPressed(){
   if (keyCode==32){
