@@ -1,40 +1,30 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Add Map</title>
-    <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzG8Az3ajKty4V5_nByQ7WGImz91CFa4I&callback=initMap&libraries=&v=weekly"
-      defer
-    ></script>
-    <style type="text/css">
-      /* Set the size of the div element that contains the map */
-      #map {
-        height: 750px;
-        /* The height is 400 pixels */
-        width: 100%;
-        /* The width is the width of the web page */
-      }
-    </style>
-    <script>
-      // Initialize and add the map
-      function initMap() {
-        // The location of Pakistan
-        const Pakistan = { lat: 30.3753, lng: 69.3451 };
-        // The map, centered at Pakistan
-        const map = new google.maps.Map(document.getElementById("map"), {
-          zoom: 4,
-          center: Pakistan,
-        });
-        // The marker, positioned at Pakistan
-        const marker = new google.maps.Marker({
-          position: Pakistan,
-          map: map,
-        });
-      }
-    </script>
-  </head>
-  <body>
-    <!--The div element for the map -->
-    <div id="map"></div>
-  </body>
+
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/addons/p5.dom.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/addons/p5.sound.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mappa-mundi@0.0.4"></script>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <meta charset="utf-8" />
+
+  <style>
+	body {
+		margin:0;
+		padding:0;
+		overflow: hidden;
+	}
+	canvas {
+		margin:auto;
+		  display: block;
+	}
+	</style>
+
+</head>
+
+<body>
+  <script src="sketch.js"></script>
+</body>
+
 </html>
