@@ -1,8 +1,9 @@
-//working prototype - need help with maps api for third screen, will add title page in the first scene. I
-// took too much time on the content, but understanding the maps api was really hard since I had to use 
-//css and becuase of that it overlayed and did not play so I deleted it and are starting new. Sorry!
+
+//references for map: https://www.youtube.com/watch?v=Ae73YY_GAU8&ab_channel=TheCodingTrain, https://mappa.js.org/docs/using-data.html
 
 let scene=1; //declaring scene to be 1
+
+var button;//button to toggle song
 
 var dadatextfile; //declaring text file
 let font; //declaring font variable
@@ -16,7 +17,19 @@ var volhistory = []; //declare an array to hold the amplitude
 
 let imgparagraph=[];//array for the image paragraphs
 
-var button;//button to toggle song
+let dadadestinationsdata; //
+
+const mappa = new Mappa('Leaflet');//creates new map class with the leaflet library
+let pakistanmap;//declared variable for my map
+let canvas;//declares canvas variable to declare the overall canvas
+
+
+const options = {//options for initial position of map
+  lat: 30.3753,//initial latitude
+  lng: 69.3451,//initial longitude
+  zoom: 4.5,//initial zoom position
+  style: "http://{s}.tile.osm.org/{z}/{x}/{y}.png"//have to put this in order to show the map image
+}
 
 function toggleSong() { //function to stop song through the button
   if (song.isPlaying()) { 
@@ -26,12 +39,15 @@ function toggleSong() { //function to stop song through the button
   }
 }
 
-function preload() { 
+function preload() {
+  dadadestinationsdata = loadTable('saved_places.csv', 'header');//loads my csv file of the destinations
+
   song = loadSound('DadaUrdu5.mp3'); //load voiceover in song variable
 
   dadatextfile=loadStrings('dada_english.txt',doText); //import strings from text file into the doText function to transfer into data
   font = loadFont('CormorantGaramond-Medium.ttf');//load selected font
 
+  
   // dadalocations=loadJSON('Saved_Places.json');
 
   //did try to make this into a for loop when  doing it, it did not process while I was running it. 
@@ -64,12 +80,14 @@ function preload() {
 }
 
 function setup() {
+  canvas = createCanvas(windowWidth, windowHeight);//variable for canvas
+  pakistanmap = mappa.tileMap(options);//initializes the map with the initial options variable
+  pakistanmap.overlay(canvas);//overlays the canvas == very important
   
-    createCanvas(windowWidth, windowHeight);//full screen
     button = createButton('press to on and off the song');//button to pause and play song
     button.position(windowWidth/2-20,100);//position to be in top middle
     button.mousePressed(toggleSong);//enable by mousePress
-    song.play();//play song function
+    // song.play();//play song function
     amp = new p5.Amplitude();//creat new amplitude class from built in p5 sound library
 }
 
@@ -81,18 +99,37 @@ function draw() {
     soundWave(); //function for sound wave
     writing(); //wanted to make a person writing on paper to illusterate grandfather, the rectangle is a desk for now -- i might not do this because I am more focusing on the map api now
     reading();//do the same for person reading the journal(my brother)
-  } else if (scene==2){
+    
+  }else if (scene==2){
     background(161,191,157,75);//green background
     button.position(windowWidth/2,windowHeight); //take out button from view
     drawSquare();  
     textprocessed();
     soundWave();
     imgChange();//call to function for images array 
-  } else if (scene==3){
-    background(0);
-  }
-}
+  }else if (scene==3){
+    clear();//basically new background, but for map specifically
+    pakistanmap.overlay(canvas);//overlays the canvas with the map
+    for (let i = 0; i < dadadestinationsdata.getRowCount(); i++) {//goes through each row in the csv file
+      
+      const latitude = Number(dadadestinationsdata.getString(i, 'geometry/coordinates/1'));//lat string from csv into the number
+      const longitude = Number(dadadestinationsdata.getString(i, 'geometry/coordinates/0'));//long string from csv into #
 
+      const pos = pakistanmap.latLngToPixel(latitude, longitude);//puts the latitude and longitude in the pos variable 
+      ellipse(pos.x, pos.y, 25);//ellipse for each destination -- will turn into maps pin png
+      // var marker = L.marker([pos.x, pos.y]).addTo(mymap); == doesnt work
+      // ellipse(pos.x[0],pos.y[0],200);
+      
+      const train=pakistanmap.latLngToPixel(31.604757,74.574136);//for the train == 
+      ellipse(train.x,train.y,50);//will change to train png
+    } 
+    
+}
+  
+  
+
+
+}
 function doText(data) {
   lines = data;//puts the lines array to the data to use as the text
 }
@@ -188,7 +225,7 @@ function imgChange(){
 function keyPressed(){
   if (keyCode==32){
     scene++;//spacebar moves scene
-    if (choice>3){
+    if (scene>3){
       scene=1;//repositions to 1rst scene if space exaceeds the number of scenes
     }
     
