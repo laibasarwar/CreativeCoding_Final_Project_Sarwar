@@ -25,14 +25,40 @@ class Destination {
     strokeWeight(0.8);
     noFill();
     imageMode(CENTER);
-    image(pin,this.x,this.y,20,30);
+    pos = pakistanmap.latLngToPixel(this.x, this.y);
+    image(pin,pos.x,pos.y,dix,diy);
     if (this.over) {
       fill(0);
       textAlign(CENTER);
-      text(this.name+" "+this.x+" "+this.y, this.x, this.y + this.radius + 20);
+      text(this.name+" "+this.x+" "+this.y, this.x, this.y + 30);
     }
   }
 }
+
+// class Train{
+//   constructor(xtrain,ytrain){
+//     this.postrain=createVector(xtrain,ytrain);
+//     this.velocitytrain=createVector(1,-1);
+//   }
+//   update() {    
+//     this.postrain.add(this.velocitytrain);
+//   }
+
+//   show() {
+//     // stroke(255);
+//     // strokeWeight(2);
+//     // fill(255, 100);
+//     imageMode(CENTER);
+
+//     const trainlatlong=pakistanmap.latLngToPixel(this.x,this.y);//28.5885595,77.2549491
+
+//     image(partitiontrain, trainlatlong.x,trainlatlong.y,80,72);
+//     // ellipse(this.postrain.xtrain, this.postrain.ytrain, 32);
+//   }
+// }
+let dix=50;
+let diy=50;
+let pos;
 
 let scene=1; //declaring scene to be 1
 
@@ -50,7 +76,9 @@ var volhistory = []; //declare an array to hold the amplitude
 
 let imgparagraph=[];//array for the image paragraphs
 
-let dadadestinationsdata; //
+let pintable;
+let destinations=[]; //easier to put all pins in one list
+let pin;
 
 let destination1;
 let velocity;
@@ -60,13 +88,10 @@ const mappa = new Mappa('Leaflet');//creates new map class with the leaflet libr
 let pakistanmap;//declared variable for my map
 let canvas;//declares canvas variable to declare the overall canvas
 
-let latitude;
-let longitude;
-
 const options = {//options for initial position of map
-  lat: 30.3753,//initial latitude
-  lng: 69.3451,//initial longitude
-  zoom: 4.5,//initial zoom position
+  lat: 30.9119721,//initial latitude
+  lng: 75.8495208,//initial longitude 
+  zoom: 6.5,//initial zoom position
   style: "http://{s}.tile.osm.org/{z}/{x}/{y}.png"//have to put this in order to show the map image
 }
 
@@ -80,7 +105,7 @@ function toggleSong() { //function to stop song through the button
 }
 
 function preload() {
-  dadadestinationsdata = loadTable('saved_places.csv', 'header');//loads my csv file of the destinations
+  pintable = loadTable('saved_places.csv', 'header');//loads my csv file of the destinations
 
   song = loadSound('DadaUrdu5.mp3'); //load voiceover in song variable
 
@@ -121,21 +146,42 @@ function preload() {
   partitiontrain=loadImage('train.png');
 }
 
+
 function setup() {
   canvas = createCanvas(windowWidth, windowHeight);//variable for canvas
+
+  createSprite(400, 200, 50, 50);
+  
   pakistanmap = mappa.tileMap(options);//initializes the map with the initial options variable
   pakistanmap.overlay(canvas);//overlays the canvas == very important
-  let latitude;
-  let longitude;
   // destination1=createVector(latitude,logitude);
+  const pin_data = pintable.getRows();
+  // The size of the array of Bubble objects is determined by the total number of rows in the CSV
+  const length = pintable.getRowCount();
 
+  for (let i = 0; i < length; i++) {
+    // Get position, diameter, name,
+    const x = pin_data[i].getNum("geometry/coordinates/1");
+    const y = pin_data[i].getNum("geometry/coordinates/0");
+    const diameter =pin //pos.x-25,pos.y-25
+    const name = pin_data[i].getString("properties/Title");
 
+    // Put object in array
+    destinations.push(new Destination(x, y, diameter, name));
+  }
   
+  // const xtrain=28.5885595;
+  // const ytrain=77.2549491;
+    
+  // train = new Train(xtrain,ytrain);
+
     button = createButton('press to on and off the song');//button to pause and play song
     button.position(windowWidth/2-20,100);//position to be in top middle
     button.mousePressed(toggleSong);//enable by mousePress
     song.play();//play song function
     amp = new p5.Amplitude();//creat new amplitude class from built in p5 sound library
+
+    
 }
 
 function draw() {
@@ -158,28 +204,34 @@ function draw() {
   }else if (scene==3){
     clear();//basically new background, but for map specifically
     pakistanmap.overlay(canvas);//overlays the canvas with the map
-    for (let i = 0; i < dadadestinationsdata.getRowCount(); i++) {//goes through each row in the csv file
+
+    for (let i = 0; i < destinations.length; i++) {
+      destinations[i].display();
+      destinations[i].rollover(mouseX, mouseY);
+    }  
+    drawSprites();
+    // train.update();
+    // train.show();
+    // for (let i = 0; i < dadadestinationsdata.getRowCount(); i++) {//goes through each row in the csv file
       
-      latitude = Number(dadadestinationsdata.getString(i, 'geometry/coordinates/1'));//lat string from csv into the number
-      longitude = Number(dadadestinationsdata.getString(i, 'geometry/coordinates/0'));//long string from csv into #
+    //   latitude = Number(dadadestinationsdata.getString(i, 'geometry/coordinates/1'));//lat string from csv into the number
+    //   longitude = Number(dadadestinationsdata.getString(i, 'geometry/coordinates/0'));//long string from csv into #
 
-      let pos = pakistanmap.latLngToPixel(latitude, longitude);//puts the latitude and longitude in the pos variable 
-      // ellipse(pos.x, pos.y, 25);//ellipse for each destination -- will turn into maps pin png
-      // var marker = L.marker([pos.x, pos.y]).addTo(mymap); == doesnt work
-      // ellipse(pos.x[0],pos.y[0],200);
-      destination1=pos
-      image(mappin,pos.x,pos.y,30,53);
+    //   let pos = pakistanmap.latLngToPixel(latitude, longitude);//puts the latitude and longitude in the pos variable 
+    //   // ellipse(pos.x, pos.y, 25);//ellipse for each destination -- will turn into maps pin png
+    //   // var marker = L.marker([pos.x, pos.y]).addTo(mymap); == doesnt work
+    //   // ellipse(pos.x[0],pos.y[0],200);
+      
+    //   image(mappin,pos.x,pos.y,30,53);
 
-      const train=pakistanmap.latLngToPixel(31.604757,74.574136);//for the train == 
-      // ellipse(train.x,train.y,50);//will change to train png
+      const train=pakistanmap.latLngToPixel(28.5885595,77.2549491);//for the train == 
+      // // ellipse(train.x,train.y,50);//will change to train png
       image(partitiontrain, train.x,train.y,80,72);
-      
-      
       // destination1=createVector(train.x,train.y);
       // velocity=createVector(0,1);
       // destination1.add(velocity);
       // ellipse(destination.x, destination.y, 32);
-    } 
+      drawSquare();  
   }  
 }
 function doText(data) {
