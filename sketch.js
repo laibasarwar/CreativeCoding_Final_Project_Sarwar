@@ -35,27 +35,6 @@ class Destination {
   }
 }
 
-// class Train{
-//   constructor(xtrain,ytrain){
-//     this.postrain=createVector(xtrain,ytrain);
-//     this.velocitytrain=createVector(1,-1);
-//   }
-//   update() {    
-//     this.postrain.add(this.velocitytrain);
-//   }
-
-//   show() {
-//     // stroke(255);
-//     // strokeWeight(2);
-//     // fill(255, 100);
-//     imageMode(CENTER);
-
-//     const trainlatlong=pakistanmap.latLngToPixel(this.x,this.y);//28.5885595,77.2549491
-
-//     image(partitiontrain, trainlatlong.x,trainlatlong.y,80,72);
-//     // ellipse(this.postrain.xtrain, this.postrain.ytrain, 32);
-//   }
-// }
 let dix=50;
 let diy=50;
 let pos;
@@ -151,7 +130,7 @@ function setup() {
   canvas = createCanvas(windowWidth, windowHeight);//variable for canvas
 
   createSprite(400, 200, 50, 50);
-  
+
   pakistanmap = mappa.tileMap(options);//initializes the map with the initial options variable
   pakistanmap.overlay(canvas);//overlays the canvas == very important
   // destination1=createVector(latitude,logitude);
@@ -170,6 +149,12 @@ function setup() {
     destinations.push(new Destination(x, y, diameter, name));
   }
   
+  // const train0=pakistanmap.latLngToPixel(28.5885595,77.2549491);
+  // let t0=createVector(train0.x,train0.y);
+
+  // const train1=pakistanmap.latLngToPixel(28.5885595,77.2549491);
+  // let t0=createVector(train1.x,train1.y);
+
   // const xtrain=28.5885595;
   // const ytrain=77.2549491;
     
@@ -179,9 +164,7 @@ function setup() {
     button.position(windowWidth/2-20,100);//position to be in top middle
     button.mousePressed(toggleSong);//enable by mousePress
     song.play();//play song function
-    amp = new p5.Amplitude();//creat new amplitude class from built in p5 sound library
-
-    
+    amp = new p5.Amplitude();//creat new amplitude class from built in p5 sound library    
 }
 
 function draw() {
@@ -209,6 +192,29 @@ function draw() {
       destinations[i].display();
       destinations[i].rollover(mouseX, mouseY);
     }  
+
+    const train0=pakistanmap.latLngToPixel(28.5885595,77.2549491); //Hazrat Station
+    let t0=createVector(train0.x,train0.y);
+  
+    const train1=pakistanmap.latLngToPixel(28.6428915,77.2190894); //New Delhi Station
+    let t1=createVector(train1.x,train1.y);
+
+    const train2=pakistanmap.latLngToPixel(30.9119721,75.8495208); //Ludhiana Station
+    let t2=createVector(train2.x,train2.y); 
+
+    const train3=pakistanmap.latLngToPixel(30.9119721,75.8495208); //Amritsar Station
+    let t3=createVector(train3.x,train3.y); 
+
+    const train4=pakistanmap.latLngToPixel(31.6047570,74.5741360); //Wagah Border
+    let t4=createVector(train4.x,train4.y);
+
+    drawTrain(t0, t1);
+    drawTrain(t1,t2);
+    drawTrain(t2,t3);
+    drawTrain(t3,t4);
+
+    let myHeading = t1.heading();
+
     drawSprites();
     // train.update();
     // train.show();
@@ -234,6 +240,15 @@ function draw() {
       drawSquare();  
   }  
 }
+function drawTrain(initial, target){
+  push();
+
+  line(initial.x, initial.y, target.x, target.y);
+
+  pop();
+
+}
+
 function doText(data) {
   lines = data;//puts the lines array to the data to use as the text
 }
