@@ -200,8 +200,6 @@ function draw() {
     drawTrain(t1,t2);
     drawTrain(t2,t3);
     drawTrain(t3,t4);
-
-    
     
     // train.update();
     // train.show();
@@ -222,8 +220,6 @@ function drawTrain(initial, target){
 
   image(partitiontrain, initial.x,initial.y,80,72);
   image(partitiontrain, target.x,target.y,80,72);
-
-
 
   
     v = p5.Vector.fromAngle(radians(myheading), 30);
@@ -388,7 +384,7 @@ function imgChange(){
 function keyPressed(){
   if (keyCode==32){
     scene++;//spacebar moves scene
-    if (scene>4){
+    if (scene>3){
       scene=1;//repositions to 1rst scene if space exaceeds the number of scenes
     }
     
@@ -397,14 +393,14 @@ function keyPressed(){
 
 class Train{
   constructor(x,y){
-    this.initial = createVector(x, y); //initial.x,initial.y
-    this.target = createVector(target.x, target.y);
-    this.heading=initial.heading(target);
-    this.v = p5.Vector.fromAngle(radians(this.heading), 30);
-    this.vx = v.x;
-    this.vy = v.y;
-    console.log(this.heading);
-    console.log(this.initial);
+    // this.initial = createVector(x, y); //initial.x,initial.y
+    // this.target = createVector(target.x, target.y);
+    // this.heading=initial.heading(target);
+    // this.v = p5.Vector.fromAngle(radians(this.heading), 30);
+    // this.vx = v.x;
+    // this.vy = v.y;
+    // console.log(this.heading);
+    // console.log(this.initial);
 
     this.pos = createVector(x, y);
     this.vel = createVector(1, -1);
