@@ -134,8 +134,8 @@ function setup() {
     destinations.push(new Destination(x, y, diameter, name));
   }
   
-    button = createButton('press to on and off the song');//button to pause and play song
-    button.position(windowWidth/2-20,100);//position to be in top middle
+    button = createButton('on/off');//button to pause and play song
+    button.position(windowWidth/2-25,100);//position to be in top middle
     button.mousePressed(toggleSong);//enable by mousePress
     song.play();//play song function
     amp = new p5.Amplitude();//creat new amplitude class from built in p5 sound library    
@@ -161,10 +161,11 @@ function setup() {
 function draw() {
   if (scene==1){
     background(255);//green background
-    // button.position(windowWidth/2-20,100);//position to be in top middle
+    //position to be in top middle
     drawSquare(); //function to make frame
     textprocessed();//function for text
     soundWave(); //function for sound wave
+    button.position(windowWidth/2-25,100);
     
   }else if (scene==2){
     background(255);//green background
@@ -240,6 +241,7 @@ function doText(data) {
 }
 
 function drawSquare(){
+  push();
   noStroke();//white squares to make a frame on each side of the window
   fill(217,120,85);
   rect(windowWidth/2,0,squareWidth,100);//I am using windowWidth to make it more responsive and not having to completely hardcode
@@ -293,7 +295,7 @@ function drawSquare(){
       squareWidth5 = windowWidth/2;
     }
   }
-
+  pop();
 }
 function textprocessed(){
   stroke(0);
@@ -307,8 +309,8 @@ function textprocessed(){
     text(title,windowWidth/2,200);
   }
   for (var i = 0; i < lines.length; i++) {//processed the text file line by line to add as subtitles
-    stroke(0,i,0);
-    fill(0); //textcolor white
+    stroke(i,0,0);
+    fill(i,0,0); //textcolor white
     textFont(font);
     textSize(fontsize);
     textAlign(CENTER);
@@ -336,9 +338,9 @@ function soundWave(){//adapted from https://www.youtube.com/watch?v=jEwAMgcCgOA
   strokeWeight(5);
   noFill();
   for (var i = 0; i < volhistory.length; i++) {//accessing each amp volume in song file and array
-    stroke(r,g+i,b);
-    var y = map(volhistory[i]*2, 0, 1, height/2, 0);//puts it into each amp level and positions it on top using height
-    vertex(i+(width/2)-100, y);//each vertex from the translation of y
+    stroke(r+i,g,b);
+    var y = map(volhistory[i]*2, 0, 1, height/2+50, 0);//puts it into each amp level and positions it on top using height
+    vertex(i+(width/2)-200, y);//each vertex from the translation of y
     // fill(vol,0);//fill the level from vol variable
   }
   endShape();
