@@ -45,7 +45,8 @@ var button;//button to toggle song
 
 var dadatextfile; //declaring text file
 let font; //declaring font variable
-fontsize=20; //declaring size of font
+let fonttitle;
+fontsize=27; //declaring size of font
 let lines = []; //declared lines array
 let phrase = 0; //declared first phrase of lines
 
@@ -58,19 +59,24 @@ let imgparagraph=[];//array for the image paragraphs
 let pintable;
 let destinations=[]; //easier to put all pins in one list
 let pin;
-
-let destination1;
-let velocity;
-let destination2;
+let box;
+let r=0;
+let g=0;
+let b=0;
+let ximg,yimg,ximg1,ximg2;
+let squareWidth,squareWidth1,squareWidth2,squareWidth3,squareWidth4,squareWidth5;
+let v,vx,vy;
 
 const mappa = new Mappa('Leaflet');//creates new map class with the leaflet library
 let pakistanmap;//declared variable for my map
 let canvas;//declares canvas variable to declare the overall canvas
 
+let train;
+
 const options = {//options for initial position of map
   lat: 30.9119721,//initial latitude
   lng: 75.8495208,//initial longitude 
-  zoom: 6.5,//initial zoom position
+  zoom: 5.5,//initial zoom position
   style: "http://{s}.tile.osm.org/{z}/{x}/{y}.png"//have to put this in order to show the map image
 }
 
@@ -86,50 +92,29 @@ function toggleSong() { //function to stop song through the button
 function preload() {
   pintable = loadTable('saved_places.csv', 'header');//loads my csv file of the destinations
 
-  song = loadSound('DadaUrdu5.mp3'); //load voiceover in song variable
+  song = loadSound('DadaUrdu6.mp3'); //load voiceover in song variable
 
   dadatextfile=loadStrings('dada_english.txt',doText); //import strings from text file into the doText function to transfer into data
-  font = loadFont('CormorantGaramond-Medium.ttf');//load selected font
+  font = loadFont('Montez-Regular.ttf');//load selected font
+  fonttitle=loadFont('partner.otf');
+
 
   
   // dadalocations=loadJSON('Saved_Places.json');
 
   //did try to make this into a for loop when  doing it, it did not process while I was running it. 
-  imgparagraph[0]=loadImage('Journal0.png');//load images in the array
-  imgparagraph[1]=loadImage('Journal1.png');
-  imgparagraph[2] = loadImage('Journal2.png');
-  // imgparagraph[3] = loadImage('Journal3.png');
-  // imgparagraph[4] = loadImage('Journal4.png');
-  // imgparagraph[5] = loadImage('Journal5.png');
-  // imgparagraph[6] = loadImage('Journal6.png');
-  // imgparagraph[7] = loadImage('Journal7.png');
-  // imgparagraph[8] = loadImage('Journal8.png');
-  // imgparagraph[9] = loadImage('Journal9.png');
-  // imgparagraph[10] = loadImage('Journal10.png');
-  // imgparagraph[11] = loadImage('Journal11.png');
-  // imgparagraph[12] = loadImage('Journal12.png');
-  // imgparagraph[13] = loadImage('Journal13.png');
-  // imgparagraph[14] = loadImage('Journal14.png');
-  // imgparagraph[15] = loadImage('Journal5.png');
-  // imgparagraph[16] = loadImage('Journal6.png');
-  // imgparagraph[17] = loadImage('Journal7.png');
-  // imgparagraph[18] = loadImage('Journal8.png');
-  // imgparagraph[19] = loadImage('Journal9.png');
-  // imgparagraph[20] = loadImage('Journa20.png');
-  // imgparagraph[21] = loadImage('Journal21.png');
-  // imgparagraph[22] = loadImage('Journal22.png');
-  // imgparagraph[23] = loadImage('Journal23.png');
-  // imgparagraph[24] = loadImage('Journal24.png');
-  // imgparagraph[25] = loadImage('Journal25.png');
+  imgparagraph[0]=loadImage('Artboard0.png');//load images in the array
+  imgparagraph[1]=loadImage('Artboard1.png');
+  imgparagraph[2] = loadImage('Artboard2.png');
   pin=loadImage("https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-512.png");
   partitiontrain=loadImage('train.png');
+  
+
 }
 
 
 function setup() {
   canvas = createCanvas(windowWidth, windowHeight);//variable for canvas
-
-  createSprite(400, 200, 50, 50);
 
   pakistanmap = mappa.tileMap(options);//initializes the map with the initial options variable
   pakistanmap.overlay(canvas);//overlays the canvas == very important
@@ -140,50 +125,52 @@ function setup() {
 
   for (let i = 0; i < length; i++) {
     // Get position, diameter, name,
-    const x = pin_data[i].getNum("geometry/coordinates/1");
-    const y = pin_data[i].getNum("geometry/coordinates/0");
-    const diameter =pin //pos.x-25,pos.y-25
-    const name = pin_data[i].getString("properties/Title");
+    let x = pin_data[i].getNum("geometry/coordinates/1");
+    let y = pin_data[i].getNum("geometry/coordinates/0");
+    let diameter =pin //pos.x-25,pos.y-25
+    let name = pin_data[i].getString("properties/Title");
 
     // Put object in array
     destinations.push(new Destination(x, y, diameter, name));
   }
   
-  // const train0=pakistanmap.latLngToPixel(28.5885595,77.2549491);
-  // let t0=createVector(train0.x,train0.y);
-
-  // const train1=pakistanmap.latLngToPixel(28.5885595,77.2549491);
-  // let t0=createVector(train1.x,train1.y);
-
-  // const xtrain=28.5885595;
-  // const ytrain=77.2549491;
-    
-  // train = new Train(xtrain,ytrain);
-
     button = createButton('press to on and off the song');//button to pause and play song
     button.position(windowWidth/2-20,100);//position to be in top middle
     button.mousePressed(toggleSong);//enable by mousePress
     song.play();//play song function
     amp = new p5.Amplitude();//creat new amplitude class from built in p5 sound library    
+    setInterval(movingPhrases,5000);
+
+    ximg=windowWidth-100;
+    ximg1=windowWidth-100;
+    ximg2=windowWidth-100;
+    yimg=height/2;
+    squareWidth=0;
+    squareWidth1=0;
+    squareWidth2=0;
+    squareWidth3=0;
+    squareWidth4=0;
+    squareWidth5=0;
+    v=0;
+    vx=0;
+    vy=0;
+
+    // train = new Train(initial.x, initial.y);
 }
 
 function draw() {
   if (scene==1){
-    background(161,191,157,75);//green background
+    background(255);//green background
     // button.position(windowWidth/2-20,100);//position to be in top middle
     drawSquare(); //function to make frame
     textprocessed();//function for text
     soundWave(); //function for sound wave
-    writing(); //wanted to make a person writing on paper to illusterate grandfather, the rectangle is a desk for now -- i might not do this because I am more focusing on the map api now
-    reading();//do the same for person reading the journal(my brother)
     
   }else if (scene==2){
-    background(161,191,157,75);//green background
+    background(255);//green background
     button.position(windowWidth/2,windowHeight); //take out button from view
-    drawSquare();  
-    textprocessed();
-    soundWave();
     imgChange();//call to function for images array 
+    drawSquare();  
   }else if (scene==3){
     clear();//basically new background, but for map specifically
     pakistanmap.overlay(canvas);//overlays the canvas with the map
@@ -193,61 +180,60 @@ function draw() {
       destinations[i].rollover(mouseX, mouseY);
     }  
 
-    const train0=pakistanmap.latLngToPixel(28.5885595,77.2549491); //Hazrat Station
+    let train0=pakistanmap.latLngToPixel(28.5885595,77.2549491); //Hazrat Station
     let t0=createVector(train0.x,train0.y);
   
-    const train1=pakistanmap.latLngToPixel(28.6428915,77.2190894); //New Delhi Station
+    let train1=pakistanmap.latLngToPixel(28.6428915,77.2190894); //New Delhi Station
     let t1=createVector(train1.x,train1.y);
 
-    const train2=pakistanmap.latLngToPixel(30.9119721,75.8495208); //Ludhiana Station
+    let train2=pakistanmap.latLngToPixel(30.9119721,75.8495208); //Ludhiana Station
     let t2=createVector(train2.x,train2.y); 
 
-    const train3=pakistanmap.latLngToPixel(30.9119721,75.8495208); //Amritsar Station
+    let train3=pakistanmap.latLngToPixel(31.6332336,74.8672281); //Amritsar Station
     let t3=createVector(train3.x,train3.y); 
 
-    const train4=pakistanmap.latLngToPixel(31.6047570,74.5741360); //Wagah Border
+    let train4=pakistanmap.latLngToPixel(31.6047570,74.5741360); //Wagah Border
     let t4=createVector(train4.x,train4.y);
 
-    drawTrain(t0, t1);
+    drawTrain(t0,t1);
     drawTrain(t1,t2);
     drawTrain(t2,t3);
     drawTrain(t3,t4);
-
-    let myHeading = t1.heading();
-
-    drawSprites();
+    
     // train.update();
     // train.show();
-    // for (let i = 0; i < dadadestinationsdata.getRowCount(); i++) {//goes through each row in the csv file
-      
-    //   latitude = Number(dadadestinationsdata.getString(i, 'geometry/coordinates/1'));//lat string from csv into the number
-    //   longitude = Number(dadadestinationsdata.getString(i, 'geometry/coordinates/0'));//long string from csv into #
-
-    //   let pos = pakistanmap.latLngToPixel(latitude, longitude);//puts the latitude and longitude in the pos variable 
-    //   // ellipse(pos.x, pos.y, 25);//ellipse for each destination -- will turn into maps pin png
-    //   // var marker = L.marker([pos.x, pos.y]).addTo(mymap); == doesnt work
-    //   // ellipse(pos.x[0],pos.y[0],200);
-      
-    //   image(mappin,pos.x,pos.y,30,53);
-
-      const train=pakistanmap.latLngToPixel(28.5885595,77.2549491);//for the train == 
-      // // ellipse(train.x,train.y,50);//will change to train png
-      image(partitiontrain, train.x,train.y,80,72);
-      // destination1=createVector(train.x,train.y);
-      // velocity=createVector(0,1);
-      // destination1.add(velocity);
-      // ellipse(destination.x, destination.y, 32);
-      drawSquare();  
+    // t1.add(t2);
+    // t2.add(t3);
+    // t3.add(t4);
+    // train.update();
+    
+    drawSquare();  
   }  
 }
 function drawTrain(initial, target){
-  push();
-
+  // push();
+  let myheading=initial.heading(target);
+  console.log(myheading);
+  // rotate(target.heading());
   line(initial.x, initial.y, target.x, target.y);
 
-  pop();
+  image(partitiontrain, initial.x,initial.y,80,72);
+  image(partitiontrain, target.x,target.y,80,72);
 
+  
+    v = p5.Vector.fromAngle(radians(myheading), 30);
+    vx = v.x;
+    vy = v.y;
+    
+    initial.x=initial.x+vx;
+    initial.y=initial.y+vy;
+    
+    // image(partitiontrain, initial.x,initial.y,80,72);
+    initial.add(v);
+  // pop();
 }
+
+
 
 function doText(data) {
   lines = data;//puts the lines array to the data to use as the text
@@ -255,88 +241,140 @@ function doText(data) {
 
 function drawSquare(){
   noStroke();//white squares to make a frame on each side of the window
-  fill(255);
-  rect(0,windowHeight-100,windowWidth,100);//I am using windowWidth to make it more responsive and not having to completely hardcode
-  rect(0,0,windowWidth,100);
-  rect(0,0,100,windowHeight);
-  rect(windowWidth-100,0,100,windowHeight);
+  fill(217,120,85);
+  rect(windowWidth/2,0,squareWidth,100);//I am using windowWidth to make it more responsive and not having to completely hardcode
+  squareWidth=squareWidth+20;
+  // console.log(squareWidth);
+  if (squareWidth > windowWidth/2) {
+    squareWidth = windowWidth/2;
+    // console.log(squareWidth);
+  }
+  // rect(0,0,windowWidth,100);
+  // rect(0,0,100,windowHeight);
+  if (squareWidth==windowWidth/2){
+    rect(windowWidth-100,0,100,squareWidth1);
+    squareWidth1=squareWidth1+20;
+    // console.log(squareWidth1);
+    if (squareWidth1 > windowHeight) {
+      squareWidth1 = windowHeight;
+      // console.log(squareWidth);
+    }
+  }
+  if (squareWidth1==windowHeight){
+    rect(windowWidth,windowHeight-100,squareWidth2,100);
+    squareWidth2=squareWidth2-20;
+    console.log(squareWidth2);
+    if (squareWidth2<-(width/2)) {//-720
+      squareWidth2 = -(width/2);
+    }
+  }
+  fill(161,191,157);
+  if (squareWidth2==-(width/2)){
+    rect(windowWidth/2,windowHeight-100,squareWidth3,100);
+    squareWidth3=squareWidth3-20;
+    console.log(squareWidth3);
+    if (squareWidth3<-(width/2)) {
+      squareWidth3 = -(width/2);
+    }
+  }
+  if (squareWidth3==-(width/2)){
+    rect(0,windowHeight,100,squareWidth4);
+    squareWidth4=squareWidth4-20;
+    console.log(squareWidth4);
+    if (squareWidth4<-windowHeight) {
+      squareWidth4 = -windowHeight;
+    }
+  }
+  if (squareWidth4==-windowHeight){
+    rect(0,0,squareWidth5,100);
+    squareWidth5=squareWidth5+20;
+    console.log(squareWidth5);
+    if (squareWidth5> windowWidth/2) {
+      squareWidth5 = windowWidth/2;
+    }
+  }
+
 }
 function textprocessed(){
+  stroke(0);
+  fill(0);
+  textFont(fonttitle);
+  textSize(35);
+  textAlign(CENTER);
+  title="Journey to Independence"
+  
+  for (word in title){
+    text(title,windowWidth/2,200);
+  }
   for (var i = 0; i < lines.length; i++) {//processed the text file line by line to add as subtitles
-    stroke(0);
+    stroke(0,i,0);
     fill(0); //textcolor white
     textFont(font);
     textSize(fontsize);
     textAlign(CENTER);
-    text(lines[phrase], windowWidth/2, windowHeight-50);
+    text(lines[phrase], windowWidth/2, windowHeight-150);
   }
 }
-function mousePressed() {//when mouse is pressed, the phrase will go up -- I will chnage this to a set time using millis later
-  phrase++;
+// function mousePressed() {//when mouse is pressed, the phrase will go up -- I will chnage this to a set time using millis later
+//   phrase++;
+// }
+function movingPhrases(){
+  if (phrase==lines.length-1){
+  phrase=0;
+  } else {
+      phrase++;
+  }
 }
 
 function soundWave(){//adapted from https://www.youtube.com/watch?v=jEwAMgcCgOA
   var vol = amp.getLevel();//gets amp level and stors it to vol
   volhistory.push(vol);//puts that vol level into the array
-  var currentY = map(vol, 1, 0, height, 1);//make it so that it is positioned on to top portion of the screen, I want to find a way to make it more colourful though
-  translate(width/2, y);//translates it to y 
+  // var currentY = map(vol, 1, 0, height/2, 1);//make it so that it is positioned on to top portion of the screen, I want to find a way to make it more colourful though
+  // translate(width/2, y);//translates it to y 
 
   beginShape();
-  stroke(0);
-  for (var i = 0; i < volhistory.length; i++) {//accessing each amp volume in song file and array
-    var y = map(volhistory[i], 1, 0, height, 1);//puts it into each amp level and positions it on top using height
-    vertex(i, y);//each vertex from the translation of y
-    fill(vol,0);//fill the level from vol variable
-  }
-  endShape();
-  if (volhistory.length > width) {//to make sure that when the track goes to the end of the screen, the line moves
-    volhistory.splice(0, 1);//removes the value from the array
-  line(width-1,0,width-1,1);//creates the line overall and positioned on top 
-  }
-}
-
-function writing(){//may not include
+  strokeWeight(5);
   noFill();
-  stroke(0);//make rectangle for writing table
-  let centerx=windowWidth/2;
-  let centery=windowHeight/2;
-  console.log(centerx);
-  console.log(centery);
-
-  push();
-  beginShape();
-
-  rectMode(CENTER);
-  rect(centerx+40,centery,80,100);
-  
+  for (var i = 0; i < volhistory.length; i++) {//accessing each amp volume in song file and array
+    stroke(r,g+i,b);
+    var y = map(volhistory[i]*2, 0, 1, height/2, 0);//puts it into each amp level and positions it on top using height
+    vertex(i+(width/2)-100, y);//each vertex from the translation of y
+    // fill(vol,0);//fill the level from vol variable
+  }
   endShape();
-  pop();
-}
-
-function reading(){
-
-  noFill();//make rectangle for reading the journal
-  stroke(0);
-  let centerx=windowWidth/2;
-  let centery=windowHeight/2;
-  console.log(centerx);
-  console.log(centery);
-
-  push();
-  beginShape();
-
-  rectMode(CENTER);
-  rect(centerx-40,centery,80,100);
-
-  endShape();
-  pop();
+  // if (volhistory.length > width-100) {//to make sure that when the track goes to the end of the screen, the line moves
+  //   volhistory.splice(0, 1);//removes the first value from the array
+  // // line(width-1,0,width-1,1);//creates the line overall and positioned on top 
+  // }
 }
 
 function imgChange(){
   for(i = 0; i < imgparagraph.length; i++){//parses the imgparagraph array 
-    imageMode(CENTER);//centers position
-    image(imgparagraph[i], random(100,windowWidth-150), random(100,windowHeight-150), 200,100);//places the image in array in random placess inside the frame with size of 200,100
+    imageMode(CENTER);//centers positioon
+    image(imgparagraph[0], ximg, yimg, 350,550);//places the image in array in random placess inside the frame with size of 200,100
+    //image(imgparagraph[1], ximg, yimg+50, 200,100);
+    
+    ximg=ximg-1;
+    if (ximg < 300) {
+      ximg = 300;
+    }
+    if (ximg==300){
+      image(imgparagraph[1], ximg1, yimg, 350,550);
+      ximg1=ximg1-1;
+      if (ximg1<width/2){
+        ximg1=width/2;
+      }
+    }
+    if (ximg1==width/2){
+      image(imgparagraph[2], ximg2, yimg, 350,550);
+      ximg2=ximg2-1;
+      if (ximg2<windowWidth-300){
+        ximg2=windowWidth-300;
+      }
+    }
+
   }
+  
 }
 
 
@@ -349,4 +387,39 @@ function keyPressed(){
     }
     
   }
+}
+
+class Train{
+  constructor(x,y){
+    // this.initial = createVector(x, y); //initial.x,initial.y
+    // this.target = createVector(target.x, target.y);
+    // this.heading=initial.heading(target);
+    // this.v = p5.Vector.fromAngle(radians(this.heading), 30);
+    // this.vx = v.x;
+    // this.vy = v.y;
+    // console.log(this.heading);
+    // console.log(this.initial);
+
+    this.pos = createVector(x, y);
+    this.vel = createVector(1, -1);
+  }
+
+  update() {    
+    this.pos.add(this.vel);
+    // this.initial.x.add(this.v.x);
+    // this.initial.y.add(this.v.y);
+  }
+
+  show(){
+    push();
+    // let myheading=
+    
+    // rotate(target.heading());
+    // line(this.initial.x, this.initial.y, this.target.x, this.target.y);
+    // console.log(this.initial.x);
+    // image(partitiontrain, this.initial.x,this.initial.y,80,72);
+    image(partitiontrain, this.pos.x,this.pos.y,80,72);
+    pop();
+  }
+
 }
