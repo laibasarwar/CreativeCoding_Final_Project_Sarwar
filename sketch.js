@@ -1,7 +1,6 @@
 
 //references for map: https://www.youtube.com/watch?v=Ae73YY_GAU8&ab_channel=TheCodingTrain, https://mappa.js.org/docs/using-data.html
 
-
 class Destination {
   constructor(x, y, diameter, name) {
     this.x = x;
@@ -34,7 +33,6 @@ class Destination {
     }
   }
 }
-
 let dix=50;
 let diy=50;
 let pos;
@@ -60,7 +58,7 @@ let pintable;
 let destinations=[]; //easier to put all pins in one list
 let pin;
 let box;
-let r=0;
+let r=255;
 let g=0;
 let b=0;
 let ximg,yimg,ximg1,ximg2;
@@ -71,7 +69,6 @@ const mappa = new Mappa('Leaflet');//creates new map class with the leaflet libr
 let pakistanmap;//declared variable for my map
 let canvas;//declares canvas variable to declare the overall canvas
 
-let train;
 
 const options = {//options for initial position of map
   lat: 30.9119721,//initial latitude
@@ -154,8 +151,6 @@ function setup() {
     v=0;
     vx=0;
     vy=0;
-
-    // train = new Train(initial.x, initial.y);
 }
 
 function draw() {
@@ -169,7 +164,13 @@ function draw() {
     
   }else if (scene==2){
     background(255);//green background
+    
     button.position(windowWidth/2,windowHeight); //take out button from view
+    textFont(fonttitle);
+    textAlign(CENTER);
+    textSize(35);
+    let title2="Journal Entries of My Grandfather's Train Journey";
+    text(title2,windowWidth/2,150);
     imgChange();//call to function for images array 
     drawSquare();  
   }else if (scene==3){
@@ -200,17 +201,10 @@ function draw() {
     drawTrain(t1,t2);
     drawTrain(t2,t3);
     drawTrain(t3,t4);
-    
-    // train.update();
-    // train.show();
-    // t1.add(t2);
-    // t2.add(t3);
-    // t3.add(t4);
-    // train.update();
-    
     drawSquare();  
   }  
 }
+
 function drawTrain(initial, target){
   // push();
   let myheading=initial.heading(target);
@@ -245,7 +239,7 @@ function drawSquare(){
   noStroke();//white squares to make a frame on each side of the window
   fill(217,120,85);
   rect(windowWidth/2,0,squareWidth,100);//I am using windowWidth to make it more responsive and not having to completely hardcode
-  squareWidth=squareWidth+20;
+  squareWidth=squareWidth+11;
   // console.log(squareWidth);
   if (squareWidth > windowWidth/2) {
     squareWidth = windowWidth/2;
@@ -255,7 +249,7 @@ function drawSquare(){
   // rect(0,0,100,windowHeight);
   if (squareWidth==windowWidth/2){
     rect(windowWidth-100,0,100,squareWidth1);
-    squareWidth1=squareWidth1+20;
+    squareWidth1=squareWidth1+11;
     // console.log(squareWidth1);
     if (squareWidth1 > windowHeight) {
       squareWidth1 = windowHeight;
@@ -264,7 +258,7 @@ function drawSquare(){
   }
   if (squareWidth1==windowHeight){
     rect(windowWidth,windowHeight-100,squareWidth2,100);
-    squareWidth2=squareWidth2-20;
+    squareWidth2=squareWidth2-11;
     console.log(squareWidth2);
     if (squareWidth2<-(width/2)) {//-720
       squareWidth2 = -(width/2);
@@ -273,7 +267,7 @@ function drawSquare(){
   fill(161,191,157);
   if (squareWidth2==-(width/2)){
     rect(windowWidth/2,windowHeight-100,squareWidth3,100);
-    squareWidth3=squareWidth3-20;
+    squareWidth3=squareWidth3-11;
     console.log(squareWidth3);
     if (squareWidth3<-(width/2)) {
       squareWidth3 = -(width/2);
@@ -281,7 +275,7 @@ function drawSquare(){
   }
   if (squareWidth3==-(width/2)){
     rect(0,windowHeight,100,squareWidth4);
-    squareWidth4=squareWidth4-20;
+    squareWidth4=squareWidth4-11;
     console.log(squareWidth4);
     if (squareWidth4<-windowHeight) {
       squareWidth4 = -windowHeight;
@@ -289,7 +283,7 @@ function drawSquare(){
   }
   if (squareWidth4==-windowHeight){
     rect(0,0,squareWidth5,100);
-    squareWidth5=squareWidth5+20;
+    squareWidth5=squareWidth5+11;
     console.log(squareWidth5);
     if (squareWidth5> windowWidth/2) {
       squareWidth5 = windowWidth/2;
@@ -338,7 +332,7 @@ function soundWave(){//adapted from https://www.youtube.com/watch?v=jEwAMgcCgOA
   strokeWeight(5);
   noFill();
   for (var i = 0; i < volhistory.length; i++) {//accessing each amp volume in song file and array
-    stroke(r+i,g,b);
+    stroke(r-i*0.5,g,b);
     var y = map(volhistory[i]*2, 0, 1, height/2+50, 0);//puts it into each amp level and positions it on top using height
     vertex(i+(width/2)-200, y);//each vertex from the translation of y
     // fill(vol,0);//fill the level from vol variable
@@ -353,7 +347,7 @@ function soundWave(){//adapted from https://www.youtube.com/watch?v=jEwAMgcCgOA
 function imgChange(){
   for(i = 0; i < imgparagraph.length; i++){//parses the imgparagraph array 
     imageMode(CENTER);//centers positioon
-    image(imgparagraph[0], ximg, yimg, 350,550);//places the image in array in random placess inside the frame with size of 200,100
+    image(imgparagraph[0], ximg, yimg, 350,400);//places the image in array in random placess inside the frame with size of 200,100
     //image(imgparagraph[1], ximg, yimg+50, 200,100);
     
     ximg=ximg-1;
@@ -361,14 +355,14 @@ function imgChange(){
       ximg = 300;
     }
     if (ximg==300){
-      image(imgparagraph[1], ximg1, yimg, 350,550);
+      image(imgparagraph[1], ximg1, yimg, 350,400);
       ximg1=ximg1-1;
       if (ximg1<width/2){
         ximg1=width/2;
       }
     }
     if (ximg1==width/2){
-      image(imgparagraph[2], ximg2, yimg, 350,550);
+      image(imgparagraph[2], ximg2, yimg, 350,400);
       ximg2=ximg2-1;
       if (ximg2<windowWidth-300){
         ximg2=windowWidth-300;
@@ -391,37 +385,37 @@ function keyPressed(){
   }
 }
 
-class Train{
-  constructor(x,y){
-    // this.initial = createVector(x, y); //initial.x,initial.y
-    // this.target = createVector(target.x, target.y);
-    // this.heading=initial.heading(target);
-    // this.v = p5.Vector.fromAngle(radians(this.heading), 30);
-    // this.vx = v.x;
-    // this.vy = v.y;
-    // console.log(this.heading);
-    // console.log(this.initial);
+// class Train{
+//   constructor(x,y){
+//     // this.initial = createVector(x, y); //initial.x,initial.y
+//     // this.target = createVector(target.x, target.y);
+//     // this.heading=initial.heading(target);
+//     // this.v = p5.Vector.fromAngle(radians(this.heading), 30);
+//     // this.vx = v.x;
+//     // this.vy = v.y;
+//     // console.log(this.heading);
+//     // console.log(this.initial);
 
-    this.pos = createVector(x, y);
-    this.vel = createVector(1, -1);
-  }
+//     this.pos = createVector(x, y);
+//     this.vel = createVector(1, -1);
+//   }
 
-  update() {    
-    this.pos.add(this.vel);
-    // this.initial.x.add(this.v.x);
-    // this.initial.y.add(this.v.y);
-  }
+//   update() {    
+//     this.pos.add(this.vel);
+//     // this.initial.x.add(this.v.x);
+//     // this.initial.y.add(this.v.y);
+//   }
 
-  show(){
-    push();
-    // let myheading=
+//   show(){
+//     push();
+//     // let myheading=
     
-    // rotate(target.heading());
-    // line(this.initial.x, this.initial.y, this.target.x, this.target.y);
-    // console.log(this.initial.x);
-    // image(partitiontrain, this.initial.x,this.initial.y,80,72);
-    image(partitiontrain, this.pos.x,this.pos.y,80,72);
-    pop();
-  }
+//     // rotate(target.heading());
+//     // line(this.initial.x, this.initial.y, this.target.x, this.target.y);
+//     // console.log(this.initial.x);
+//     // image(partitiontrain, this.initial.x,this.initial.y,80,72);
+//     image(partitiontrain, this.pos.x,this.pos.y,80,72);
+//     pop();
+//   }
 
-}
+// }
