@@ -57,6 +57,7 @@ let imgparagraph=[];//array for the image paragraphs
 let pintable;
 let destinations=[]; //easier to put all pins in one list
 let pin;
+let mapimage;
 let box;
 let r=255;
 let g=0;
@@ -68,6 +69,8 @@ let v,vx,vy;
 const mappa = new Mappa('Leaflet');//creates new map class with the leaflet library
 let pakistanmap;//declared variable for my map
 let canvas;//declares canvas variable to declare the overall canvas
+
+let train;
 
 
 const options = {//options for initial position of map
@@ -105,6 +108,7 @@ function preload() {
   imgparagraph[2] = loadImage('Artboard2.png');
   pin=loadImage("https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-512.png");
   partitiontrain=loadImage('train.png');
+  mapimage=loadImage('mapimage.png');
   
 
 }
@@ -151,6 +155,7 @@ function setup() {
     v=0;
     vx=0;
     vy=0;
+    train=new Train(windowWidth-510,windowHeight-100);
 }
 
 function draw() {
@@ -173,7 +178,12 @@ function draw() {
     text(title2,windowWidth/2,150);
     imgChange();//call to function for images array 
     drawSquare();  
-  }else if (scene==3){
+  } else if (scene==3){
+    background(0);
+    backgroundMap();
+    train.update();
+    train.show();
+  } else if (scene==4){
     clear();//basically new background, but for map specifically
     pakistanmap.overlay(canvas);//overlays the canvas with the map
 
@@ -201,7 +211,7 @@ function draw() {
     drawTrain(t1,t2);
     drawTrain(t2,t3);
     drawTrain(t3,t4);
-    drawSquare();  
+    // drawSquare();  
   }  
 }
 
@@ -212,8 +222,8 @@ function drawTrain(initial, target){
   // rotate(target.heading());
   line(initial.x, initial.y, target.x, target.y);
 
-  image(partitiontrain, initial.x,initial.y,80,72);
-  image(partitiontrain, target.x,target.y,80,72);
+  // image(partitiontrain, initial.x,initial.y,80,72);
+  // image(partitiontrain, target.x,target.y,80,72);
 
   
     v = p5.Vector.fromAngle(radians(myheading), 30);
@@ -344,6 +354,53 @@ function soundWave(){//adapted from https://www.youtube.com/watch?v=jEwAMgcCgOA
   // }
 }
 
+function backgroundMap(){
+  // imageMode(CENTER);//centers positioon
+  image(mapimage, 0, 0, windowWidth,windowHeight);
+
+}
+
+class Train {
+  constructor(x, y) {
+    this.pos = createVector(x, y);
+    this.vel = createVector(-1, -1);
+  }
+
+  update() {    
+    this.pos.add(this.vel);
+  }
+
+  show() {
+    stroke(255);
+    strokeWeight(2);
+    fill(255, 100);
+    // ellipse(this.pos.x, this.pos.y, 32);
+    // rotate(PI / 3.0);
+    image(partitiontrain, this.pos.x,this.pos.y,80,72);
+    // console.log(this.pos.x,this.pos.y);
+    if ((this.pos.x==windowWidth-545) && (this.pos.y==windowHeight-135)){
+      this.vel=createVector(0, 0);
+    }
+    if ((this.pos.x==windowWidth-545) && (this.pos.y==windowHeight-135)){
+      this.vel=createVector(-1, -2);
+    }
+    if ((this.pos.x==windowWidth-779) && (this.pos.y==windowHeight-603)){
+      this.vel=createVector(0, 0);
+    }
+    if ((this.pos.x==windowWidth-779) && (this.pos.y==windowHeight-603)){
+      this.vel=createVector(-2, -1.5);
+    }
+    if ((this.pos.x==windowWidth-975) && (this.pos.y==windowHeight-750)){
+      this.vel=createVector(0,0);
+    }
+    if ((this.pos.x==windowWidth-975) && (this.pos.y==windowHeight-750)){
+      this.vel=createVector(-0.625,0.0625);//0.50, 0.05
+    }
+    if ((this.pos.x==windowWidth-1015) && (this.pos.y==windowHeight-746)){
+      this.vel=createVector(0,0);
+    }
+  }
+}
 function imgChange(){
   for(i = 0; i < imgparagraph.length; i++){//parses the imgparagraph array 
     imageMode(CENTER);//centers positioon
@@ -373,12 +430,10 @@ function imgChange(){
   
 }
 
-
-
 function keyPressed(){
   if (keyCode==32){
     scene++;//spacebar moves scene
-    if (scene>3){
+    if (scene>4){
       scene=1;//repositions to 1rst scene if space exaceeds the number of scenes
     }
     
