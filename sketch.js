@@ -365,7 +365,7 @@ function soundWave(){//adapted from https://www.youtube.com/watch?v=jEwAMgcCgOA
   for (var i = 0; i < volhistory.length; i++) {//accessing each amp volume in song file and array
     stroke(r-i*0.25,g,b);
     var y = map(volhistory[i]*2, 0, 1, height/2+50, 0);//puts it into each amp level and positions it on top using height
-    vertex(i+(width/2)-325, y);//each vertex from the translation of y
+    vertex(i+(width/2)-150, y);//each vertex from the translation of y
     // fill(vol,0);//fill the level from vol variable
   }
   endShape();
