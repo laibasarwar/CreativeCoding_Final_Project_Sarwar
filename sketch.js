@@ -265,7 +265,7 @@ function drawSquare(){
   noStroke();//white squares to make a frame on each side of the window
   fill(217,120,85);
   rect(windowWidth/2,0,squareWidth,100);//I am using windowWidth to make it more responsive and not having to completely hardcode
-  squareWidth=squareWidth+7.5;
+  squareWidth=squareWidth+17;
   // console.log(squareWidth);
   if (squareWidth > windowWidth/2) {
     squareWidth = windowWidth/2;
@@ -275,7 +275,7 @@ function drawSquare(){
   // rect(0,0,100,windowHeight);
   if (squareWidth==windowWidth/2){
     rect(windowWidth-100,0,100,squareWidth1);
-    squareWidth1=squareWidth1+7.5;
+    squareWidth1=squareWidth1+17;
     // console.log(squareWidth1);
     if (squareWidth1 > windowHeight) {
       squareWidth1 = windowHeight;
@@ -284,7 +284,7 @@ function drawSquare(){
   }
   if (squareWidth1==windowHeight){
     rect(windowWidth,windowHeight-100,squareWidth2,100);
-    squareWidth2=squareWidth2-7.5;
+    squareWidth2=squareWidth2-17;
     console.log(squareWidth2);
     if (squareWidth2<-(width/2)) {//-720
       squareWidth2 = -(width/2);
@@ -293,7 +293,7 @@ function drawSquare(){
   fill(161,191,157);
   if (squareWidth2==-(width/2)){
     rect(windowWidth/2,windowHeight-100,squareWidth3,100);
-    squareWidth3=squareWidth3-7.5;
+    squareWidth3=squareWidth3-17;
     console.log(squareWidth3);
     if (squareWidth3<-(width/2)) {
       squareWidth3 = -(width/2);
@@ -301,7 +301,7 @@ function drawSquare(){
   }
   if (squareWidth3==-(width/2)){
     rect(0,windowHeight,100,squareWidth4);
-    squareWidth4=squareWidth4-7.5;
+    squareWidth4=squareWidth4-17;
     console.log(squareWidth4);
     if (squareWidth4<-windowHeight) {
       squareWidth4 = -windowHeight;
@@ -309,7 +309,7 @@ function drawSquare(){
   }
   if (squareWidth4==-windowHeight){
     rect(0,0,squareWidth5,100);
-    squareWidth5=squareWidth5+7.5;
+    squareWidth5=squareWidth5+17;
     console.log(squareWidth5);
     if (squareWidth5> windowWidth/2) {
       squareWidth5 = windowWidth/2;
@@ -363,7 +363,7 @@ function soundWave(){//adapted from https://www.youtube.com/watch?v=jEwAMgcCgOA
   strokeWeight(5);
   noFill();
   for (var i = 0; i < volhistory.length; i++) {//accessing each amp volume in song file and array
-    stroke(r-i*0.25,g,b);
+    stroke(r-i*1.5,g,b);
     var y = map(volhistory[i]*2, 0, 1, height/2+50, 0);//puts it into each amp level and positions it on top using height
     vertex(i+(width/2)-150, y);//each vertex from the translation of y
     // fill(vol,0);//fill the level from vol variable
