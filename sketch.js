@@ -1,43 +1,6 @@
 
 //references for map: https://www.youtube.com/watch?v=Ae73YY_GAU8&ab_channel=TheCodingTrain, https://mappa.js.org/docs/using-data.html
 
-class Destination {
-  constructor(x, y, diameter, name) {
-    this.x = x;
-    this.y = y;
-    this.diameter = diameter;
-    this.radius = diameter / 2;
-    this.name = name;
-
-    this.over = false;
-  }
-
-  // Check if mouse is over the destination
-  rollover(px, py) {
-    let d = dist(px+20, py+20, this.x, this.y);
-    this.over = d < this.radius;
-  }
-
-  // Display the destination
-  display() {
-    stroke(0);
-    strokeWeight(0.8);
-    noFill();
-    imageMode(CENTER);
-    pos = pakistanmap.latLngToPixel(this.x, this.y);
-    image(pin,pos.x,pos.y,dix,diy);
-    if (this.over) {
-      fill(0);
-      textAlign(CENTER);
-      text(this.name+" "+this.x+" "+this.y, this.x, this.y + 30);
-      rect(this.x,this.y,20,20);
-    }
-  }
-}
-
-let snowflakes = []; // array to hold snowflake objects
-
-
 let dix=50;
 let diy=50;
 let pos;
@@ -62,6 +25,7 @@ let imgparagraph=[];//array for the image paragraphs
 let pintable;
 let destinations=[]; //easier to put all pins in one list
 let pin;
+let pinlabel;
 let mapimage;
 let box;
 let r=255;
@@ -188,6 +152,7 @@ function draw() {
     text(title2,windowWidth/2,150);
     imgChange();//call to function for images array 
     drawSquare();  
+
   } else if (scene==3){
     song.pause();
     background(255);
@@ -196,11 +161,20 @@ function draw() {
 
     for (let i = 0; i < destinations.length; i++) {
       destinations[i].display();
-      destinations[i].rollover(mouseX, mouseY);
+      // destinations[i].rollover(mouseX, mouseY);
     }  
 
     let train0=pakistanmap.latLngToPixel(28.5885595,77.2549491); //Hazrat Station
     let t0=createVector(train0.x,train0.y);
+
+    stroke(0);
+    // if (mouseIsPressed == true){
+      if ((mouseX>train0.x)&& (mouseX<train0.x+125) && (mouseY>train0.y) && (mouseY<train0.y+125)){//boolean if mousex and mousey is in each cardd
+        fill(200);
+        rect((train0.x+20),train0.y,200,20);
+      }
+    // }
+
   
     let train1=pakistanmap.latLngToPixel(28.6428915,77.2190894); //New Delhi Station
     let t1=createVector(train1.x,train1.y);
@@ -381,6 +355,95 @@ function backgroundMap(){
 
 }
 
+function imgChange(){
+  for(i = 0; i < imgparagraph.length; i++){//parses the imgparagraph array 
+    imageMode(CENTER);//centers positioon
+    image(imgparagraph[0], ximg, yimg, 350,400);//places the image in array in random placess inside the frame with size of 200,100
+    //image(imgparagraph[1], ximg, yimg+50, 200,100);
+    
+    ximg=ximg-1;
+    if (ximg < 300) {
+      ximg = 300;
+    }
+    if (ximg==300){
+      image(imgparagraph[1], ximg1, yimg, 350,400);
+      ximg1=ximg1-1;
+      if (ximg1<width/2){
+        ximg1=width/2;
+      }
+    }
+    if (ximg1==width/2){
+      image(imgparagraph[2], ximg2, yimg, 350,400);
+      ximg2=ximg2-1;
+      if (ximg2<windowWidth-300){
+        ximg2=windowWidth-300;
+      }
+    }
+
+  }
+  
+}
+
+function keyPressed(){
+  if (keyCode==32){
+    scene++;//spacebar moves scene
+    if (scene>4){
+      scene=1;//repositions to 1rst scene if space exaceeds the number of scenes
+    }
+    
+  }
+}
+
+class Destination {
+  constructor(x, y, diameter, name) {
+    this.x = x;
+    this.y = y;
+    this.diameter = diameter;
+    this.radius = diameter / 2;
+    this.name = name;
+
+    this.over = false;
+  }
+
+  // Check if mouse is over the destination
+  rollover(px, py) {
+    this.px=px;
+    this.py=py;
+    let d = dist(px, py, this.x, this.y);
+    this.over = d < this.radius;
+  }
+
+  // Display the destination
+  display() {
+    stroke(0);
+    strokeWeight(0.8);
+    noFill();
+    imageMode(CENTER);
+    pos = pakistanmap.latLngToPixel(this.x, this.y);
+    pinlabel=pakistanmap.latLngToPixel(this.x,this.y);
+    image(pin,pos.x,pos.y,dix,diy);
+    if ((mouseX==pos.x)&&(mouseY==pos.y)){
+      rect(pos.x,pos.y,200,200);
+    }
+    fill(0);
+    rect((pinlabel.x)+20,(pinlabel.y),20,20);
+
+    // stroke(0);
+    // if (mouseIsPressed == true){
+    //   // if ((mouseX>this.x )&& (mouseX<this.x+125) && (mousey>this.y) && (mouseY<this.y+125)){//boolean if mousex and mousey is in each cardd
+    //     line(mouseX, 0, mouseX, windowHeight);
+    //   // }
+    // }
+    if (this.over==true) {
+      fill(0);
+      rect(pos.x,pos.y,200,200);
+      textAlign(CENTER);
+      text(this.name+" "+this.x+" "+this.y, this.x, this.y + 30);
+      rect(this.x,this.y,20,20);
+    }
+  }
+}
+
 class Train {
   constructor(x, y) {
     this.pos = createVector(x, y);
@@ -439,41 +502,4 @@ class Train {
   }
 }
 
-function imgChange(){
-  for(i = 0; i < imgparagraph.length; i++){//parses the imgparagraph array 
-    imageMode(CENTER);//centers positioon
-    image(imgparagraph[0], ximg, yimg, 350,400);//places the image in array in random placess inside the frame with size of 200,100
-    //image(imgparagraph[1], ximg, yimg+50, 200,100);
-    
-    ximg=ximg-1;
-    if (ximg < 300) {
-      ximg = 300;
-    }
-    if (ximg==300){
-      image(imgparagraph[1], ximg1, yimg, 350,400);
-      ximg1=ximg1-1;
-      if (ximg1<width/2){
-        ximg1=width/2;
-      }
-    }
-    if (ximg1==width/2){
-      image(imgparagraph[2], ximg2, yimg, 350,400);
-      ximg2=ximg2-1;
-      if (ximg2<windowWidth-300){
-        ximg2=windowWidth-300;
-      }
-    }
 
-  }
-  
-}
-
-function keyPressed(){
-  if (keyCode==32){
-    scene++;//spacebar moves scene
-    if (scene>4){
-      scene=1;//repositions to 1rst scene if space exaceeds the number of scenes
-    }
-    
-  }
-}
