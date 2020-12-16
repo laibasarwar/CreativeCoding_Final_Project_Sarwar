@@ -379,13 +379,11 @@ function draw() {
   if (millis()>=39000){
     text(partitionsum2[17],width/2-(width/4),height/2+250);
   }
-  
-  if (millis()>=40000){
-    text(partitionsum2[17],width/2-(width/4),height/2+250);
-  }
   pop();
   
   strokeWeight(0);
+
+  push();
 
   if (scene==1){
     background(255);//green background
