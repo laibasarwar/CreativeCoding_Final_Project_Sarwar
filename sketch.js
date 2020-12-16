@@ -69,6 +69,8 @@ function preload() {
   dadatextfile=loadStrings('dada_english.txt',doText); //import strings from text file into the doText function to transfer into data
   font = loadFont('lust_slim.ttf');//load selected font
   fonttitle=loadFont('partner.otf');
+  cormorant=loadFont('CormorantGaramond-Medium.ttf');
+  comforta=loadFont('Comfortaa-VariableFont_wght.ttf');
 
 
   
@@ -161,38 +163,137 @@ function draw() {
 
     for (let i = 0; i < destinations.length; i++) {
       destinations[i].display();
-      // destinations[i].rollover(mouseX, mouseY);
     }  
-
+    
     let train0=pakistanmap.latLngToPixel(28.5885595,77.2549491); //Hazrat Station
     let t0=createVector(train0.x,train0.y);
-
-    stroke(0);
-    // if (mouseIsPressed == true){
-      if ((mouseX>train0.x)&& (mouseX<train0.x+125) && (mouseY>train0.y) && (mouseY<train0.y+125)){//boolean if mousex and mousey is in each cardd
-        fill(200);
-        rect((train0.x+20),train0.y,200,20);
-      }
-    // }
-
-  
+    
     let train1=pakistanmap.latLngToPixel(28.6428915,77.2190894); //New Delhi Station
     let t1=createVector(train1.x,train1.y);
+    stroke(0);
+    drawTrain(t0,t1);
 
     let train2=pakistanmap.latLngToPixel(30.9119721,75.8495208); //Ludhiana Station
     let t2=createVector(train2.x,train2.y); 
+    stroke(0);
+    drawTrain(t1,t2);
 
     let train3=pakistanmap.latLngToPixel(31.6332336,74.8672281); //Amritsar Station
     let t3=createVector(train3.x,train3.y); 
+    stroke(0);
+    drawTrain(t2,t3);
 
     let train4=pakistanmap.latLngToPixel(31.6047570,74.5741360); //Wagah Border
     let t4=createVector(train4.x,train4.y);
-
-    drawTrain(t0,t1);
-    drawTrain(t1,t2);
-    drawTrain(t2,t3);
+    stroke(0);
     drawTrain(t3,t4);
-    // drawSquare();  
+
+    noStroke();
+
+    if ((mouseX>train0.x-(dix/2))&& (mouseX<train0.x+(dix/2)) && (mouseY>train0.y-(diy/2)) && (mouseY<train0.y+(diy/2))){//boolean if mousex and mousey is in each cardd
+      fill(217,120,85);
+      rect((train0.x+20),train0.y,290,150,25);
+      stroke(0);
+      fill(0);
+
+      let station0="Hazrat Nizamuddin Railway Station\n- India -\nSeptember 19, 2020\nInitial Boarding Station For Pakistan\n- found a small spot cabin space to sit in\n- with a friend and his family\n- constantly searched for weaponry";
+      textAlign(CENTER);
+      textFont(comforta);
+      textLeading(20);
+      text(station0,train0.x+165,train0.y+20);
+    }
+    
+    if ((mouseX>train1.x-(dix/2))&& (mouseX<train1.x+(dix/2)) && (mouseY>train1.y-(diy/2)) && (mouseY<train1.y+(diy/2))){//boolean if mousex and mousey is in each cardd
+      fill(217,120,85);
+      rect((train1.x+20),train1.y,290,140,25);
+      stroke(0);
+      fill(0);
+
+      let station1="- New Delhi Railway Station -\n- India -\nSeptember 19, 1947,\nFirst Train Stop\n- saw armed Hindus and Sikhs\n- heard gunfire from the City";
+      textAlign(CENTER);
+      textFont(comforta);
+      textLeading(20);
+      text(station1,train1.x+165,train1.y+20);
+    }
+
+
+    if ((mouseX>train2.x-(dix/2))&& (mouseX<train2.x+(dix/2)) && (mouseY>train2.y-(diy/2)) && (mouseY<train2.y+(diy/2))){//boolean if mousex and mousey is in each cardd
+      fill(217,120,85);
+      rect((train2.x+20),train2.y,290,175,25);
+      stroke(0);
+      fill(0);
+
+      let station2="- Ludhiana Railway Station -\n- India -\nSeptember 20, 1947\nSecond Train Stop\n- carts filled with holes\n- about 100 people martyred\n- women and children missing\n- about 40-50 people survived";
+      textAlign(CENTER);
+      textFont(comforta);
+      textLeading(20);
+      text(station2,train2.x+165,train2.y+20);
+    }
+
+
+
+    if ((mouseX>train3.x-(dix/2))&& (mouseX<train3.x+(dix/2)) && (mouseY>train3.y-(diy/2)) && (mouseY<train3.y+(diy/2))){//boolean if mousex and mousey is in each cardd
+      fill(217,120,85);
+      rect((train3.x+20),train3.y,290,100,25);
+      stroke(0);
+      fill(0);
+
+      let station3="- Amritsar Junction -\n- India -\nSeptember 20, 1947\nThird Train Stop";
+      textAlign(CENTER);
+      textFont(comforta);
+      textLeading(20);
+      text(station3,train3.x+165,train3.y+20);
+    }
+
+
+    if ((mouseX>train4.x-(dix/2))&& (mouseX<train4.x+(dix/2)) && (mouseY>train4.y-(diy/2)) && (mouseY<train4.y+(diy/2))){//boolean if mousex and mousey is in each cardd
+      fill(161,191,157);
+      rect((train4.x+20),train4.y,290,140,25);
+      stroke(0);
+      fill(0);
+
+      let station4="- Wagah Border -\n- Pakistan -\nSeptember 20, 1947\nLast Train Stop\n- finally reached Lahore\n- immediately felt a sense of peace";
+      textAlign(CENTER);
+      textFont(comforta);
+      textLeading(20);
+      text(station4,train4.x+165,train4.y+20);
+    }
+
+
+    noStroke();
+    let train5=pakistanmap.latLngToPixel(28.6561592,77.2410203); //Red Fort
+    if ((mouseX>train5.x-(dix/2))&& (mouseX<train5.x+(dix/2)) && (mouseY>train5.y-(diy/2)) && (mouseY<train5.y+(diy/2))){//boolean if mousex and mousey is in each cardd
+      fill(217,120,85);
+      rect((train5.x+20),train5.y,290,100,25);
+      stroke(0);
+      fill(0);
+
+      let station5="- Red Fort -\n- India -\nSeptember 19, 1947\n-seen on the way to New Delhi Station";
+      textAlign(CENTER);
+      textFont(comforta);
+      textLeading(20);
+      text(station5,train5.x+165,train5.y+20);
+    }
+    let train6=pakistanmap.latLngToPixel(28.6506792,77.2334421); //Jama Masjid
+
+    if ((mouseX>train6.x-(dix/2))&& (mouseX<train6.x+(dix/2)) && (mouseY>train6.y-(diy/2)) && (mouseY<train6.y+(diy/2))){//boolean if mousex and mousey is in each cardd
+      fill(217,120,85);
+      rect((train6.x+20),train6.y,290,100,25);
+      stroke(0);
+      fill(0);
+
+      let station6="- Jama Masjid -\n- India -\nSeptember 19, 1947\n-seen on the way to New Delhi Station";
+      textAlign(CENTER);
+      textFont(comforta);
+      textLeading(20);
+      text(station6,train6.x+165,train6.y+20);
+    }
+
+
+    
+    drawSquare();  
+
+
   } else if (scene==4){
     background(0);
     song.pause();
@@ -353,6 +454,61 @@ function backgroundMap(){
   // imageMode(CENTER);//centers positioon
   image(mapimage, 0, 0, windowWidth,windowHeight);
 
+  fill(217,120,85);
+  rect((windowWidth-545+100),windowHeight-150,290,150,15);
+  stroke(0);
+  fill(0);
+
+  let station0="Hazrat Nizamuddin Railway Station\n- India -\nSeptember 19, 2020\nInitial Boarding Station For Pakistan\n- found a small spot cabin space to sit in\n- with a friend and his family\n- constantly searched for weaponry";
+  textAlign(CENTER);
+  textFont(comforta);
+  textLeading(20);
+  text(station0,windowWidth-545+245,windowHeight-150+20);
+  
+
+  fill(217,120,85);
+  rect((windowWidth-875+20),windowHeight-175,290,140,25);
+  stroke(0);
+  fill(0);
+
+  let station1="- New Delhi Railway Station -\n- India -\nSeptember 19, 1947,\nFirst Train Stop\n- saw armed Hindus and Sikhs\n- heard gunfire from the City";
+  textAlign(CENTER);
+  textFont(comforta);
+  textLeading(20);
+  text(station1,windowWidth-875+165,windowHeight-175+20);
+
+  fill(217,120,85);
+  rect((windowWidth-700+20),windowHeight-603,290,175,25);
+  stroke(0);
+  fill(0);
+
+  let station2="- Ludhiana Railway Station -\n- India -\nSeptember 20, 1947\nSecond Train Stop\n- carts filled with holes\n- about 100 people martyred\n- women and children missing\n- about 40-50 people survived";
+  textAlign(CENTER);
+  textFont(comforta);
+  textLeading(20);
+  text(station2,windowWidth-700+165,windowHeight-603+20);
+
+  fill(217,120,85);
+  rect((windowWidth-900+20),windowHeight-775,290,100,25);
+  stroke(0);
+  fill(0);
+
+  let station3="- Amritsar Junction -\n- India -\nSeptember 20, 1947\nThird Train Stop";
+  textAlign(CENTER);
+  textFont(comforta);
+  textLeading(20);
+  text(station3,windowWidth-900+165,windowHeight-775+20);
+
+  fill(161,191,157);
+  rect((windowWidth-1350+20),windowHeight-746,290,140,25);
+  stroke(0);
+  fill(0);
+
+  let station4="- Wagah Border -\n- Pakistan -\nSeptember 20, 1947\nLast Train Stop\n- finally reached Lahore\n- immediately felt a sense of peace";
+  textAlign(CENTER);
+  textFont(comforta);
+  textLeading(20);
+  text(station4,windowWidth-1350+165,windowHeight-746+20);
 }
 
 function imgChange(){
@@ -405,14 +561,6 @@ class Destination {
     this.over = false;
   }
 
-  // Check if mouse is over the destination
-  rollover(px, py) {
-    this.px=px;
-    this.py=py;
-    let d = dist(px, py, this.x, this.y);
-    this.over = d < this.radius;
-  }
-
   // Display the destination
   display() {
     stroke(0);
@@ -422,25 +570,6 @@ class Destination {
     pos = pakistanmap.latLngToPixel(this.x, this.y);
     pinlabel=pakistanmap.latLngToPixel(this.x,this.y);
     image(pin,pos.x,pos.y,dix,diy);
-    if ((mouseX==pos.x)&&(mouseY==pos.y)){
-      rect(pos.x,pos.y,200,200);
-    }
-    fill(0);
-    rect((pinlabel.x)+20,(pinlabel.y),20,20);
-
-    // stroke(0);
-    // if (mouseIsPressed == true){
-    //   // if ((mouseX>this.x )&& (mouseX<this.x+125) && (mousey>this.y) && (mouseY<this.y+125)){//boolean if mousex and mousey is in each cardd
-    //     line(mouseX, 0, mouseX, windowHeight);
-    //   // }
-    // }
-    if (this.over==true) {
-      fill(0);
-      rect(pos.x,pos.y,200,200);
-      textAlign(CENTER);
-      text(this.name+" "+this.x+" "+this.y, this.x, this.y + 30);
-      rect(this.x,this.y,20,20);
-    }
   }
 }
 
